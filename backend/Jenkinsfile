@@ -12,24 +12,38 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Build') {
+        stage('Build Backend') {
             steps {
                 dir('backend') {
                     sh 'mvn clean compile'
                 }
             }
         }
-        stage('Test') {
+        stage('Test Backend') {
             steps {
                 dir('backend') {
                     sh 'mvn test'
                 }
             }
         }
-        stage('Package') {
+        stage('Package Backend') {
             steps {
                 dir('backend') {
                     sh 'mvn package -DskipTests'
+                }
+            }
+        }
+        stage('Install Frontend') {
+            steps {
+                dir('frontend') {
+                    sh 'npm install'
+                }
+            }
+        }
+        stage('Build Frontend') {
+            steps {
+                dir('frontend') {
+                    sh 'npm run build'
                 }
             }
         }
